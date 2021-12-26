@@ -1,0 +1,112 @@
+<div class="titulo">
+    <h1 class="titulo-escrito">Usuarios</h1>
+</div>
+<div class="users">
+    <div class="row">
+        <div class="col-md-6 columnas">
+            <div class="form-inline">
+                <div class="col-md-2 paginasPosicionIzq">
+                    <h6 class="items-escrito">Items por Pagina</h6>
+                </div>
+                <div class="col-md-2 paginasPosicionDer">
+                    <select class="form-control" name="tableUser" [(ngModel)]="itempageUser">
+                        <option value="5" selected="selected">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 form-inline columnas">
+            <div class="buscar">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search by name" aria-label="Search"
+                    [(ngModel)]="searchUser">
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">ESTADO</th>
+                <th scope="col">ROL</th>
+                <th scope="col">ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor="let user of listUsers |  paginate: { itemsPerPage: itempageUser, currentPage: pageUser}| principal:searchUser">
+                <th scope="col">{{user.id}}</th>
+                <th scope="col">{{user.nombre}}</th>
+                <th scope="col">{{user.activo}}</th>
+                <th scope="col">{{user.rol.nombre}}</th>
+                <th>
+                    <a title="Editar" role="button" (click)="cargarDatosModificar(user)">
+                        <img src="../../assets/img/editar-documento.png" width="30" height="30" class="btnReportes">
+                    </a>
+                    <a title="Eliminar" role="button" (click)="eliminarUsuario(user.id)">
+                        <img src="../../assets/img/remove.png" width="30" height="30" class="btnReportes">
+                    </a>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pie-pagina">
+        <div>
+            <pagination-controls (pageChange)="pageUser = $event" previousLabel="Anterior" nextLabel="Siguiente">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
+
+<div class="titulo">
+    <h1 class="titulo-escrito">Datos</h1>
+</div>
+<div class="users">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <p>Nombre del usuario</p>
+            <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="user.nombre">
+        </div>
+        <div class="col-md-4">
+            <p>Rol del usuario</p>
+            <select class="form-control" [(ngModel)]="user.rol">
+                <option [value]="rol.id" *ngFor="let rol of listRoles">{{rol.nombre}}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row segundaFila">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 radios">
+            <p>Activo</p>
+            <div class="row ">
+                <div class="col-md-4 radiobotonIzq">
+                    <input type="radio" id="activoSi" name="drone" value="S" [(ngModel)]="user.activo" checked>
+                    <label for="activoSi">Si</label>
+                </div>
+                <div class="col-md-4 radiobotonDer">
+                    <input type="radio" id="activoNo" name="drone" value="N" [(ngModel)]="user.activo">
+                    <label for="activoNo">No</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row segundaFila">
+        <div class="col-md-4"></div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success botonIzq" (click)="guardarUsuario(user)" [hidden]="!mostrar">Guardar</button>
+            <button type="button" class="btn btn-warning botonIzq ng-hide" (click)="actualizarUsuario(user)" [hidden]="mostrar">Actualizar</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
